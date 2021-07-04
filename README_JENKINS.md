@@ -1,5 +1,7 @@
 
-Paso a paso creación Job en Jenkins
+# Paso a paso creación Job en Jenkins
+
+El presente documento tiene como objetivo ilustrar el paso a paso de la creación, configuración y ejecución de un Job en Jenkins para crear y destruir una infraestructura conformada por 1 Vpc, 3 subnets, 3 instancias Ec2, 3 security groups y 1 bucket de S3 con objetos almacenados.
 
 1. Se crea un contenedor Docker con Jenkins y se configura para posteriormente acceder a la GUI.
 2. Se configura el acceso a Jenkins con las credenciales
@@ -36,67 +38,45 @@ Paso a paso creación Job en Jenkins
 
 Por último, se comparte en texto el código utilzado en las ejecuciones del Job de Jenkins:
 
-Acción #1
->>> echo ""
->>> 
->>> echo "############### Installig Terraform ###############"
->>> 
->>> echo ""
->>> 
->>> file="/usr/local/bin/terraform"
->>> 
->>> [ -f $file ] && rm $file
->>> 
->>> wget https://releases.hashicorp.com/terraform/1.0.1/terraform_1.0.1_linux_amd64.zip
->>> 
->>> unzip terraform_1.0.1_linux_amd64.zip -d /usr/local/bin/
->>> 
->>> terraform -v
->>> 
+## Acción #1
+```
+echo ""
+echo "############### Installig Terraform ###############"
+echo ""
+file="/usr/local/bin/terraform"
+[ -f $file ] && rm $file
+wget https://releases.hashicorp.com/terraform/1.0.1/terraform_1.0.1_linux_amd64.zip
+unzip terraform_1.0.1_linux_amd64.zip -d /usr/local/bin/
+terraform -v
+```
 
 
-Acción #2
+## Acción #2
+```
+echo ""
+echo "############### Deploying AWS Infrastructure from Terraform ###############"
+echo ""
 
->>> echo ""
->>> 
->>> echo "############### Deploying AWS Infrastructure from Terraform ###############"
->>> 
->>> echo ""
->>> 
+export AWS_ACCESS_KEY_ID="AKIAWPBG5****"
+export AWS_SECRET_ACCESS_KEY="kOA30zrAdv********"
+export AWS_DEFAULT_REGION="us-east-1"
 
->>> export AWS_ACCESS_KEY_ID="AKIAWPBG5****"
->>> 
->>> export AWS_SECRET_ACCESS_KEY="kOA30zrAdv********"
->>> 
->>> export AWS_DEFAULT_REGION="us-east-1"
->>> 
+cd /var/jenkins_home/workspace/Execute\ Terraform\ Project\ from\ Github
+terraform init
+terraform plan
+terraform apply -input=false -auto-approve
+```
 
->>> cd /var/jenkins_home/workspace/Execute\ Terraform\ Project\ from\ Github
->>> 
->>> terraform init
->>> 
->>> terraform plan
->>> 
->>> terraform apply -input=false -auto-approve
->>> 
-
-Acción #3
->>> echo ""
->>> 
->>> echo "############### Destroying AWS Infrastructure ###############"
->>> 
->>> echo ""
->>> 
->>> export AWS_ACCESS_KEY_ID="AKIAWPBG5****"
->>> 
->>> export AWS_SECRET_ACCESS_KEY="kOA30zrAdv********"
->>> 
->>> export AWS_DEFAULT_REGION="us-east-1"
->>> 
->>> terraform init
->>> 
->>> terraform plan
->>> 
->>> terraform destroy -input=false -auto-approve
-
+## Acción #3
+```
+echo ""
+echo "############### Destroying AWS Infrastructure ###############"
+echo ""
+export AWS_ACCESS_KEY_ID="AKIAWPBG5****"
+export AWS_SECRET_ACCESS_KEY="kOA30zrAdv********"
+export AWS_DEFAULT_REGION="us-east-1"
+terraform init
+terraform plan
+terraform destroy -input=false -auto-approve
+```
   
