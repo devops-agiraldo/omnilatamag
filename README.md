@@ -53,8 +53,8 @@ echo ""
 echo "############### Deploying AWS Infrastructure from Terraform ###############"
 echo ""
 
-export AWS_ACCESS_KEY_ID="AKIAWPBG5Y3SDC6LYS7Q"
-export AWS_SECRET_ACCESS_KEY="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"
+export AWS_ACCESS_KEY_ID="AKIAWPBG5*******"
+export AWS_SECRET_ACCESS_KEY="kOA30zrAdvdRakP************"
 export AWS_DEFAULT_REGION="us-east-1"
 
 cd /var/jenkins_home/workspace/Execute\ Terraform\ Project\ from\ Github
